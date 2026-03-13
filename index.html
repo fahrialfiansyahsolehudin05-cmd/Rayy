@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Fahri ❤️ Egi</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+}
+
+/* LOGIN */
+
+#login{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+flex-direction:column;
+color:white;
+}
+
+input{
+padding:10px;
+border-radius:10px;
+border:none;
+margin-top:10px;
+width:220px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#ff4d6d;
+color:white;
+margin-top:10px;
+cursor:pointer;
+}
+
+/* HEADER */
+
+header{
+background:white;
+padding:15px;
+text-align:center;
+border-radius:0 0 20px 20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* PAGE */
+
+.page{
+display:none;
+padding:20px;
+padding-bottom:120px;
+animation:fade .3s;
+}
+
+.active{
+display:block;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1}
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+margin-top:40px;
+color:white;
+}
+
+/* CARD */
+
+.card{
+background:white;
+border-radius:15px;
+padding:15px;
+margin-top:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.grid img,video{
+width:100%;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* NAVBAR */
+
+nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+flex-wrap:wrap;
+justify-content:space-around;
+padding:12px;
+border-radius:20px 20px 0 0;
+box-shadow:0 -5px 15px rgba(0,0,0,0.2);
+}
+
+nav a{
+text-decoration:none;
+color:black;
+font-size:14px;
+}
+
+/* WHEEL */
+
+.pointer{
+font-size:30px;
+text-align:center;
+color:red;
+margin-bottom:-15px;
+}
+
+canvas{
+display:block;
+margin:auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="login">
+
+<h2>Masukkan Kata Sandi</h2>
+
+<input type="password" id="pass">
+
+<button onclick="login()">Masuk</button>
+
+<p id="error"></p>
+
+</div>
+
+<div id="app" style="display:none">
+
+<header>
+
+<h2>Fahri ❤️ Egi</h2>
+<p id="hari"></p>
+
+</header>
+
+<div id="home" class="page active">
+
+<div class="hero">
+
+<h1>Halo Sayang ❤️</h1>
+
+<p>
+Sudah lebih dari 3 tahun kita bersama.
+Semoga semua kenangan ini selalu menjadi cerita indah.
+</p>
+
+</div>
+
+</div>
+
+<div id="foto" class="page">
+
+<h3>Album Foto</h3>
+
+<div id="albumContainer"></div>
+
+</div>
+
+<div id="video" class="page">
+
+<h3>Album Video</h3>
+
+<div id="videoContainer"></div>
+
+</div>
+
+<div id="game" class="page">
+
+<h3 style="text-align:center">Love Wheel</h3>
+
+<div class="pointer">▼</div>
+
+<canvas id="wheel" width="320" height="320"></canvas>
+
+<div style="text-align:center">
+
+<button onclick="spin()">Putar Roda</button>
+
+<p id="hasil"></p>
+
+</div>
+
+</div>
+
+<div id="uploadFoto" class="page">
+
+<div class="card">
+
+<h3>Upload Foto</h3>
+
+<input type="text" id="albumFoto" placeholder="Nama Album">
+
+<input type="text" id="noteFoto" placeholder="Catatan">
+
+<input type="file" id="fileFoto" accept="image/*">
+
+<button onclick="uploadFoto()">Upload Foto</button>
+
+</div>
+
+</div>
+
+<div id="uploadVideo" class="page">
+
+<div class="card">
+
+<h3>Upload Video</h3>
+
+<input type="text" id="albumVideo" placeholder="Nama Album">
+
+<input type="text" id="noteVideo" placeholder="Catatan">
+
+<input type="file" id="fileVideo" accept="video/*">
+
+<button onclick="uploadVideo()">Upload Video</button>
+
+</div>
+
+</div>
+
+<nav>
+
+<a onclick="openPage('home')">🏠 Home</a>
+<a onclick="openPage('foto')">📷 Foto</a>
+<a onclick="openPage('video')">🎥 Video</a>
+<a onclick="openPage('game')">🎡 Game</a>
+<a onclick="openPage('uploadFoto')">⬆️ Foto</a>
+<a onclick="openPage('uploadVideo')">🎬 Video</a>
+
+</nav>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+function login(){
+
+let p=document.getElementById("pass").value
+
+if(p==="Egi"){
+
+document.getElementById("login").style.display="none"
+document.getElementById("app").style.display="block"
+
+}else{
+
+document.getElementById("error").innerText="Password salah"
+
+}
+
+}
+
+/* NAVIGASI */
+
+function openPage(id){
+
+let pages=document.querySelectorAll(".page")
+
+pages.forEach(p=>p.classList.remove("active"))
+
+document.getElementById(id).classList.add("active")
+
+}
+
+/* HITUNG HARI */
+
+let start=new Date("2022-01-01")
+let now=new Date()
+let days=Math.floor((now-start)/(1000*60*60*24))
+
+document.getElementById("hari").innerText=days+" hari bersama ❤️"
+
+/* UPLOAD FOTO */
+
+function uploadFoto(){
+
+let file=document.getElementById("fileFoto").files[0]
+let album=document.getElementById("albumFoto").value
+let note=document.getElementById("noteFoto").value
+
+if(!file||!album)return
+
+let url=URL.createObjectURL(file)
+
+let id="foto_"+album.replace(/\s/g,"")
+
+let box=document.getElementById(id)
+
+if(!box){
+
+let div=document.createElement("div")
+div.className="card"
+
+div.innerHTML=`
+<h3>${album}</h3>
+<p>${note}</p>
+<div class="grid" id="${id}"></div>
+`
+
+document.getElementById("albumContainer").appendChild(div)
+
+box=document.getElementById(id)
+
+}
+
+let img=document.createElement("img")
+img.src=url
+
+box.appendChild(img)
+
+}
+
+/* UPLOAD VIDEO */
+
+function uploadVideo(){
+
+let file=document.getElementById("fileVideo").files[0]
+let album=document.getElementById("albumVideo").value
+let note=document.getElementById("noteVideo").value
+
+if(!file||!album)return
+
+let url=URL.createObjectURL(file)
+
+let id="video_"+album.replace(/\s/g,"")
+
+let box=document.getElementById(id)
+
+if(!box){
+
+let div=document.createElement("div")
+div.className="card"
+
+div.innerHTML=`
+<h3>${album}</h3>
+<p>${note}</p>
+<div class="grid" id="${id}"></div>
+`
+
+document.getElementById("videoContainer").appendChild(div)
+
+box=document.getElementById(id)
+
+}
+
+let v=document.createElement("video")
+v.src=url
+v.controls=true
+
+box.appendChild(v)
+
+}
+
+/* LOVE WHEEL AKURAT */
+
+const options=[
+"Egi traktir jajan",
+"Fahri traktir jajan",
+"Peluk pasangan",
+"Cium pasangan",
+"Gombal 5 menit",
+"Nonton film pilihan Egi",
+"Ganti foto profil pakai foto Egi",
+"Ganti foto profil pakai foto Fahri",
+"Selfie bareng",
+"Jalan bareng minggu ini"
+]
+
+const canvas=document.getElementById("wheel")
+const ctx=canvas.getContext("2d")
+
+const size=options.length
+const arc=(2*Math.PI)/size
+
+let currentRotation=0
+
+function drawWheel(){
+
+for(let i=0;i<size;i++){
+
+ctx.beginPath()
+ctx.moveTo(160,160)
+ctx.arc(160,160,160,i*arc,(i+1)*arc)
+
+ctx.fillStyle=i%2?"#ff4d6d":"#ff8fa3"
+
+ctx.fill()
+
+ctx.save()
+
+ctx.translate(160,160)
+ctx.rotate(i*arc+arc/2)
+
+ctx.fillStyle="white"
+ctx.font="12px Arial"
+
+ctx.fillText(options[i],40,5)
+
+ctx.restore()
+
+}
+
+}
+
+drawWheel()
+
+function spin(){
+
+let resultIndex=Math.floor(Math.random()*size)
+
+let targetAngle=(size-resultIndex)*arc
+
+let extraSpin=6*Math.PI
+
+let finalAngle=extraSpin+targetAngle
+
+currentRotation+=finalAngle
+
+canvas.style.transition="transform 4s cubic-bezier(.17,.67,.83,.67)"
+canvas.style.transform="rotate("+currentRotation+"rad)"
+
+setTimeout(()=>{
+
+document.getElementById("hasil").innerText="Hasil: "+options[resultIndex]
+
+},4000)
+
+}
+
+</script>
+
+</body>
+</html>
